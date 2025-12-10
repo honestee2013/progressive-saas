@@ -10,7 +10,8 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "livewire/livewire": "^3.7"
+        "livewire/livewire": "^3.7",
+        "quicker-faster/laravel-ui": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -20,7 +21,9 @@
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
         "phpunit/phpunit": "^10.1",
-        "spatie/laravel-ignition": "^2.0"
+        "spatie/laravel-ignition": "^2.0",
+        "quicker-faster/laravel-code-gen": "dev-main"
+
     },
     "autoload": {
         "psr-4": {
@@ -64,5 +67,19 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+
+
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/honestee2013/laravel-ui.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/honestee2013/laravel-code-gen.git"
+        }
+
+    ]
 }
