@@ -63,6 +63,19 @@ Route::get('/', function () {
 
 
 
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', function () {
+        return view('profile');
+    })->name('profile');
+
+});
+
+
+
+
+
+
 // Phase 1 Test Route
 Route::get('/test-phase1', function() {
     return response()->json([
@@ -222,6 +235,14 @@ Route::get('/test-livewire-fix', function() {
         ]
     ]);
 });
+
+
+
+
+
+
+
+
 
 
 
