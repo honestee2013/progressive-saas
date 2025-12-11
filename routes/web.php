@@ -241,10 +241,91 @@ Route::get('/test-livewire-fix', function() {
 
 
 
+// QuickerFaster UI Test Routes
+Route::get('/test-quickerfaster', function() {
+    // Test if package components are working
+    $components = [
+        'livewire_counter' => class_exists(\QuickerFaster\LaravelUI\Livewire\Counter::class),
+        'livewire_todolist' => class_exists(\QuickerFaster\LaravelUI\Livewire\TodoList::class),
+        'blade_components' => Blade::hasComponent('quickerfaster-alert'),
+        'assets_css' => file_exists(public_path('vendor/quickerfaster/css/quickerfaster.css')),
+        'assets_js' => file_exists(public_path('vendor/quickerfaster/js/quickerfaster.js')),
+    ];
+
+    return view('test.quickerfaster', [
+        'components' => $components,
+    ]);
+})->name('test.quickerfaster');
+
+Route::get('/test-package-status', function() {
+    return response()->json([
+        'package' => 'quicker-faster/laravel-ui',
+        'status' => 'installed',
+        'version' => config('quickerfaster-ui.version', '1.0.0'),
+        'components' => [
+            'livewire' => [
+                'counter' => class_exists(\QuickerFaster\LaravelUI\Livewire\Counter::class),
+                'todo_list' => class_exists(\QuickerFaster\LaravelUI\Livewire\TodoList::class),
+                'update_profile' => class_exists(\QuickerFaster\LaravelUI\Livewire\Profile\UpdateProfile::class),
+                'update_password' => class_exists(\QuickerFaster\LaravelUI\Livewire\Profile\UpdatePassword::class),
+            ],
+            'blade' => [
+                'alert' => Blade::hasComponent('quickerfaster-alert'),
+                'card' => Blade::hasComponent('quickerfaster-card'),
+                'modal' => Blade::hasComponent('quickerfaster-modal'),
+            ]
+        ],
+        'assets' => [
+            'css' => file_exists(public_path('vendor/quickerfaster/css/quickerfaster.css')),
+            'js' => file_exists(public_path('vendor/quickerfaster/js/quickerfaster.js')),
+        ],
+        'views' => [
+            'counter' => view()->exists('quickerfaster::livewire.counter'),
+            'todo_list' => view()->exists('quickerfaster::livewire.todo-list'),
+            'layout' => view()->exists('layouts.app'),
+        ]
+    ]);
+});
 
 
 
 
 
+
+
+
+
+
+
+// Phase 5 Test Routes
+Route::get('/phase5-test', function() {
+    return view('test.phase5');
+});
+
+Route::get('/test-phase5', function() {
+    return response()->json([
+        'status' => 'success',
+        'phase' => 5,
+        'message' => 'Laravel UI Package development complete',
+        'package' => [
+            'name' => 'quicker-faster/laravel-ui',
+            'version' => config('quickerfaster-ui.version', '1.0.0'),
+            'components' => [
+                'livewire' => 4,
+                'blade' => 3,
+            ],
+            'features' => [
+                'toast_notifications' => true,
+                'confirm_dialogs' => true,
+                'loading_indicators' => true,
+            ]
+        ],
+        'installation' => [
+            'command' => 'php artisan quickerfaster:install',
+            'composer_require' => 'composer require quicker-faster/laravel-ui',
+        ],
+        'timestamp' => now(),
+    ]);
+});
 
 

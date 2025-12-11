@@ -1,0 +1,46 @@
+/* QuickerFaster UI Styles */
+.quickerfaster-badge {
+    background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.quickerfaster-card {
+    border: 1px solid #e3e6f0;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.quickerfaster-loading {
+    position: relative;
+    min-height: 100px;
+}
+
+.quickerfaster-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: quickerfaster-spin 1s linear infinite;
+}
+
+@keyframes quickerfaster-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Livewire specific */
+[wire\:loading].quickerfaster-loading,
+.quickerfaster-loading [wire\:loading] {
+    opacity: 0.5;
+    pointer-events: none;
+}

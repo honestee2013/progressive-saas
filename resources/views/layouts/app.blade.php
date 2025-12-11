@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} - @yield('title', 'Dashboard')</title>
+    <title>@yield('title', config('app.name', 'Laravel'))</title>
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,57 +13,19 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
-
-    {{-- - Default Laravel Vite Assets (commented out) --}}
-    {{--
-            <!-- Fonts -->
-            <link rel="preconnect" href="https://fonts.bunny.net">
-            <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-            <!-- Scripts -->
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    --}}
-
-
-    <!-- Custom CSS -->
-    <style>
-        :root {
-            --primary-color: #4e73df;
-            --success-color: #1cc88a;
-            --warning-color: #f6c23e;
-            --danger-color: #e74a3b;
-        }
-
-        body {
-            padding-top: 20px;
-            background-color: #f8f9fc;
-        }
-
-        .navbar-custom {
-            background-color: var(--primary-color);
-        }
-
-        .test-card {
-            border-left: 4px solid var(--primary-color);
-        }
-
-        /* Livewire loading indicator */
-        [wire\:loading] {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-    </style>
+    <!-- QuickerFaster CSS -->
+    <link rel="stylesheet" href="{{ asset('vendor/quickerfaster/css/quickerfaster.css') }}">
 
     @stack('styles')
+    @livewireStyles
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+    @if(config('quickerfaster-ui.layout.use_navbar', true))
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
         <div class="container">
-            <a class="navbar-brand" href="/progressive">
+            <a class="navbar-brand" href="{{ url('/') }}">
                 <i class="bi bi-lightning-charge-fill me-2"></i>
-                Progressive SaaS
+                {{ config('app.name', 'Laravel') }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -71,52 +33,86 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/progressive/phase1-test">
-                            <i class="bi bi-1-circle me-1"></i>
-                            Phase 1
+                        <a class="nav-link" href="{{ url('/') }}">
+                            <i class="bi bi-house me-1"></i> Home
                         </a>
+                    </li>
+                    @auth
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                           data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>
+                            {{ Auth::user()->name }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('home') }}">
+                                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                    @else
+                    <li class="nav-item">
+                        {{-- - --<a class="nav-link" href="{{ route('login') }}">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                        </a>--}}
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/progressive/phase2-test">
-                            <i class="bi bi-2-circle me-1"></i>
-                            Phase 2
+                        <a class="nav-link" href="{{ route('register') }}">
+                            <i class="bi bi-person-plus me-1"></i> Register
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/progressive/phase3-test">
-                            <i class="bi bi-3-circle me-1"></i>
-                            Phase 3
-                        </a>
-                    </li>
+                    @endauth
                 </ul>
             </div>
         </div>
     </nav>
+    @endif
 
-    @include('layouts.navigation')
-
-
-    <!-- Main Content -->
-    <main class="container">
+    <main class="container py-4">
         @yield('content')
     </main>
 
-    <!-- Footer -->
-    <footer class="mt-5 py-4 text-center text-muted">
-        <div class="container">
-            <p>Progressive Deployment Test • Phase 3: Livewire Components</p>
+    @if(config('quickerfaster-ui.layout.use_footer', true))
+    <footer class="mt-5 py-4 bg-light">
+        <div class="container text-center">
+            <p class="mb-0 text-muted">
+                Powered by
+                <span class="quickerfaster-badge">QuickerFaster UI</span>
+                • v{{ config('quickerfaster-ui.version', '1.0.0') }}
+            </p>
         </div>
     </footer>
+    @endif
 
-    <!-- Bootstrap 5 JS Bundle (with Popper) -->
+    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-
-
-
-
-
+    <!-- QuickerFaster JS -->
+    <script src="{{ asset('vendor/quickerfaster/js/quickerfaster.js') }}"></script>
 
     @stack('scripts')
+    @livewireScripts
+
+    @if(session()->has('success'))
+    <script>
+        QuickerFaster.toast("{{ session('success') }}", 'success');
+    </script>
+    @endif
+
+    @if(session()->has('error'))
+    <script>
+        QuickerFaster.toast("{{ session('error') }}", 'danger');
+    </script>
+    @endif
 </body>
 </html>
