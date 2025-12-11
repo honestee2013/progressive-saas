@@ -4,18 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    
     <title>@yield('title', config('app.name', 'Laravel'))</title>
-
+    
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-
+    
     <!-- QuickerFaster CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/quickerfaster/css/quickerfaster.css') }}">
-
+    
     @stack('styles')
     @livewireStyles
 </head>
@@ -39,7 +39,7 @@
                     </li>
                     @auth
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" role="button" 
                            data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle me-1"></i>
                             {{ Auth::user()->name }}
@@ -77,38 +77,38 @@
         </div>
     </nav>
     @endif
-
+    
     <main class="container py-4">
         @yield('content')
     </main>
-
+    
     @if(config('quickerfaster-ui.layout.use_footer', true))
     <footer class="mt-5 py-4 bg-light">
         <div class="container text-center">
             <p class="mb-0 text-muted">
-                Powered by
+                Powered by 
                 <span class="quickerfaster-badge">QuickerFaster UI</span>
                 • v{{ config('quickerfaster-ui.version', '1.0.0') }}
             </p>
         </div>
     </footer>
     @endif
-
+    
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    
     <!-- QuickerFaster JS -->
     <script src="{{ asset('vendor/quickerfaster/js/quickerfaster.js') }}"></script>
-
+    
     @stack('scripts')
     @livewireScripts
-
+    
     @if(session()->has('success'))
     <script>
         QuickerFaster.toast("{{ session('success') }}", 'success');
     </script>
     @endif
-
+    
     @if(session()->has('error'))
     <script>
         QuickerFaster.toast("{{ session('error') }}", 'danger');
